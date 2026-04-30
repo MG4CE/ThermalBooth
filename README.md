@@ -61,6 +61,22 @@ Or let systemd handle it — after `install.sh` both services start on boot and 
 
 ---
 
+## Project Structure
+
+| Path | Description |
+|------|-------------|
+| `main.py` | Entry point — state machine that drives the full booth pipeline |
+| `config.json` | Single config file for all settings |
+| `camera/` | Picamera2 wrapper with GPU-accelerated DRM/KMS preview |
+| `display/` | Countdown and flash overlays composited by the GPU (no CPU per-frame work) |
+| `image/` | Image processing pipeline — resize, greyscale, dithering, header/footer borders |
+| `input/` | GPIO button handler via gpiozero |
+| `printer/` | ESC/POS thermal printer driver over USB with auto-detect and retry logic |
+| `manager/` | Flask web UI for config editing, service control, log viewing, and image uploads |
+| `models/` | 3D printable enclosure STL |
+
+---
+
 ## Configuration
 
 All settings live in `config.json`. Key ones to check:
@@ -73,18 +89,3 @@ All settings live in `config.json`. Key ones to check:
 | `camera.color_preview` | `false` | `true` for colour preview, `false` for B&W |
 | `image_settings.dither_method` | `atkinson` | `atkinson`, `floyd_steinberg`, `threshold`, `none` |
 
----
-
-## 3D Printed Enclosure
-
-An STL file for a printable enclosure is included under the `models/` directory.
-
----
-
-## Dependencies
-
-```
-picamera2, python-escpos, pyusb, gpiozero, RPi.GPIO, lgpio, numpy, Pillow, evdev, flask
-```
-
-Installed automatically by `install.sh`.
