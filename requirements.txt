@@ -1,0 +1,13 @@
+# Booth
+python-escpos
+gpiozero
+RPi.GPIO
+lgpio
+pyusb
+picamera2
+numpy
+Pillow
+evdev
+
+# Manager
+flask

@@ -1,0 +1,56 @@
+{
+  "debug_dir": "debug",
+  "save_debug_images": false,
+  "camera": {
+    "af_range": "normal",
+    "autofocus": true,
+    "brightness": 0.15,
+    "capture_height": 2550,
+    "capture_width": 3500,
+    "color_preview": false,
+    "contrast": 1.1,
+    "denoise": "cdn_hq",
+    "framerate": 24,
+    "height": 600,
+    "jpeg_quality": 92,
+    "raw_height": 1296,
+    "raw_width": 2304,
+    "sharpness": 1.6,
+    "width": 800
+  },
+  "display": {
+    "countdown_color": false,
+    "countdown_seconds": 3,
+    "flash_duration_ms": 150,
+    "font_size": 200,
+    "fullscreen": true,
+    "height": 600,
+    "result_display_seconds": 3,
+    "show_status_messages": false,
+    "width": 800
+  },
+  "gpio": {
+    "bounce_time": 250,
+    "pin": 17,
+    "pull_up_down": "pull_up"
+  },
+  "image_settings": {
+    "dither_method": "atkinson",
+    "footer_gap": 20,
+    "footer_max_height": 200,
+    "header_gap": 20,
+    "header_max_height": 200,
+    "header_image": "",
+    "footer_image": ""
+  },
+  "printer": {
+    "auto_detect": true,
+    "heat_time": 21,
+    "line_spacing": 20,
+    "max_dots": 11,
+    "print_width": 576,
+    "product_id": 0,
+    "retry_attempts": 3,
+    "vendor_id": 0
+  }
+}

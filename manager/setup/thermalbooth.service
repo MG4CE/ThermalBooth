@@ -1,0 +1,24 @@
+[Unit]
+Description=ThermalBooth v2 Photo Booth
+
+[Service]
+Type=simple
+WorkingDirectory=__PROJECT_DIR__
+ExecStart=__PROJECT_DIR__/manager/setup/thermalbooth-start.sh
+
+StandardOutput=journal
+StandardError=journal
+
+# Restart on crash, but not on clean exit
+Restart=on-failure
+RestartSec=5
+
+# Kill entire process group on stop
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=10
+
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target

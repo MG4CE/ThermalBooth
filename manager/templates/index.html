@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThermalBooth Manager</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<!-- Header -->
+<header>
+    <div class="header-inner">
+        <h1>ThermalBooth Manager</h1>
+        <div class="status-area">
+            <span class="status-badge" id="status-badge">
+                <span class="status-dot"></span>
+                <span class="status-text">Checking...</span>
+            </span>
+        </div>
+    </div>
+</header>
+
+<!-- Main content -->
+<main>
+
+    <!-- Controls -->
+    <section class="section-block" id="controls-card">
+        <div class="section-header">
+            <h2>Booth Controls</h2>
+            <span class="pid-info" id="pid-info"></span>
+        </div>
+        <div class="controls">
+            <button class="btn btn-start" id="btn-start" onclick="controlBooth('start')">
+                Start
+            </button>
+            <button class="btn btn-stop" id="btn-stop" onclick="controlBooth('stop')">
+                Stop
+            </button>
+            <button class="btn btn-restart" id="btn-restart" onclick="controlBooth('restart')">
+                Restart
+            </button>
+        </div>
+    </section>
+
+    <!-- Config editor -->
+    <section class="section-block" id="config-card">
+        <div class="section-header">
+            <h2>Configuration</h2>
+            <button class="btn btn-save" id="btn-save" onclick="saveConfig()">
+                Save Config
+            </button>
+        </div>
+        <div id="config-form">
+            <div class="loading">Loading configuration...</div>
+        </div>
+    </section>
+
+    <!-- Logs -->
+    <section class="section-block" id="logs-card">
+        <div class="section-header collapsible" onclick="toggleLogs()">
+            <h2>
+                <span class="toggle-icon" id="logs-chevron">+</span>
+                Service Logs
+            </h2>
+            <button class="btn btn-small" onclick="event.stopPropagation(); loadLogs()">Refresh</button>
+        </div>
+        <div class="logs-body" id="logs-body">
+            <pre id="logs-output">Click refresh to load logs...</pre>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>ThermalBooth Manager &mdash; Running on Raspberry Pi</p>
+</footer>
+
+<script src="/static/app.js?v=2"></script>
+</body>
+</html>
