@@ -125,7 +125,7 @@ class Camera:
             controls={
                 "FrameDurationLimits": (int(1_000_000 / self.framerate),
                                         int(1_000_000 / self.framerate)),
-                **self._isp_controls(self.preview_saturation),
+                #**self._isp_controls(self.preview_saturation),
             },
         )
 
@@ -140,7 +140,13 @@ class Camera:
         self._capture_config = self.picam2.create_still_configuration(
             main={"size": (self.capture_width, self.capture_height), "format": "RGB888"},
             sensor={"output_size": sensor_size},
-            controls=self._isp_controls(1.0),  # saturation 1.0 = full colour for capture
+            controls={
+                "Saturation": 1.0,
+                "AeMeteringMode": libcamera_controls.AeMeteringModeEnum.Spot,
+                "ExposureValue": float(self.exposure_value),
+                "Brightness": float(self.brightness),
+                "Contrast": float(self.contrast),
+            },
         )
 
         self.picam2.configure(self._preview_config)
