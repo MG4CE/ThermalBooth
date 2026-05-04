@@ -194,7 +194,7 @@ class ESCPOSPrinter:
                 self._apply_heat_settings(printer)
                 
                 # Print image
-                printer.image(img)
+                printer.image(img, impl='bitImageRaster')
                 
                 # Longer wait to allow printer to cool between operations
                 time.sleep(0.5)
