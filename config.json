@@ -4,11 +4,12 @@
   "camera": {
     "af_range": "normal",
     "autofocus": true,
-    "brightness": 0.15,
+    "brightness": 0.0,
+    "exposure_value": 0.4,
     "capture_height": 2550,
     "capture_width": 3500,
     "color_preview": false,
-    "contrast": 1.1,
+    "contrast": 1.0,
     "denoise": "cdn_hq",
     "framerate": 24,
     "height": 600,
@@ -40,8 +41,8 @@
     "footer_max_height": 200,
     "header_gap": 20,
     "header_max_height": 200,
-    "header_image": "",
-    "footer_image": ""
+    "header_image": "/home/pi/ThermalBooth/media/header.jpg",
+    "footer_image": "/home/pi/ThermalBooth/media/footer.jpg"
   },
   "printer": {
     "auto_detect": true,

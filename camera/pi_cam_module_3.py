@@ -56,8 +56,9 @@ class Camera:
         self.framerate = self.cam_config.get('framerate', 24)
         color_preview = self.cam_config.get('color_preview', False)
         self.preview_saturation = 1.0 if color_preview else 0.0
-        self.brightness = self.cam_config.get('brightness', 0.1)
+        self.brightness = self.cam_config.get('brightness', 0.0)
         self.contrast = self.cam_config.get('contrast', 1.0)
+        self.exposure_value = self.cam_config.get('exposure_value', 0.0)
         self.denoise = self.cam_config.get('denoise', 'cdn_hq')
         self.sharpness = self.cam_config.get('sharpness', 1.5)
         self.autofocus = self.cam_config.get('autofocus', True)
@@ -124,6 +125,7 @@ class Camera:
             controls={
                 "FrameDurationLimits": (int(1_000_000 / self.framerate),
                                         int(1_000_000 / self.framerate)),
+                **self._isp_controls(self.preview_saturation),
             },
         )
 
@@ -138,7 +140,7 @@ class Camera:
         self._capture_config = self.picam2.create_still_configuration(
             main={"size": (self.capture_width, self.capture_height), "format": "RGB888"},
             sensor={"output_size": sensor_size},
-            controls={"Saturation": 1.0},
+            controls=self._isp_controls(1.0),  # saturation 1.0 = full colour for capture
         )
 
         self.picam2.configure(self._preview_config)
@@ -198,6 +200,7 @@ class Camera:
                     controls={
                         "FrameDurationLimits": (int(1_000_000 / self.framerate),
                                                 int(1_000_000 / self.framerate)),
+                        **self._isp_controls(self.preview_saturation),
                     },
                 )
                 self.picam2.configure(drm_config)
@@ -250,33 +253,32 @@ class Camera:
         except Exception as e:
             logger.debug(f"[Camera] Could not set fullscreen: {e}")
 
-    def _apply_native_controls(self):
-        """Set libcamera controls so all adjustments happen in the ISP."""
-        if not self.picam2:
-            return
+    def _isp_controls(self, saturation: float) -> dict:
+        """Build the full ISP controls dict for a given saturation level.
 
-        ctrl = {}
+        Used both when baking controls into the camera configuration and
+        when calling set_controls() on a running camera, so all settings
+        are always consistent between preview, DRM fallback, and capture.
+        """
+        ctrl: dict = {
+            # Brightness: libcamera range roughly -1.0 … 1.0
+            "Brightness": float(self.brightness),
+            # Contrast: 1.0 = normal
+            "Contrast": float(self.contrast),
+            # Saturation: 0.0 = greyscale, 1.0 = full colour
+            "Saturation": float(saturation),
+            # Auto-exposure
+            "AeEnable": True,
+            "ExposureValue": float(self.exposure_value),  # positive = brighter, negative = darker
+            "AeMeteringMode": libcamera_controls.AeMeteringModeEnum.Spot,
+            "AeExposureMode": libcamera_controls.AeExposureModeEnum.Normal,
+            # Auto white balance
+            "AwbMode": 0,
+            # Sharpening
+            "Sharpness": float(self.sharpness),
+        }
 
-        # Brightness: libcamera range is roughly -1.0 … 1.0
-        ctrl["Brightness"] = float(self.brightness)
-
-        # Contrast: 1.0 = normal
-        ctrl["Contrast"] = float(self.contrast)
-
-        # Colour saturation: 0.0 = greyscale, 1.0 = full colour
-        ctrl["Saturation"] = float(self.preview_saturation)
-
-        # Auto-exposure metering and exposure mode
-        ctrl["AeMeteringMode"] = 0  # Centre-weighted
-        ctrl["AeExposureMode"] = 0  # Normal
-
-        # Auto white balance
-        ctrl["AwbMode"] = 0  # Auto
-
-        # In-camera sharpening
-        ctrl["Sharpness"] = float(self.sharpness)
-
-        # Noise reduction mode
+        # Noise reduction
         denoise_map = {
             "cdn_off": libcamera_controls.draft.NoiseReductionModeEnum.Off
                        if hasattr(libcamera_controls, 'draft') else 0,
@@ -289,11 +291,7 @@ class Camera:
         if noise_mode is not None:
             ctrl["NoiseReductionMode"] = noise_mode
 
-        # Autofocus — Camera Module 3 (IMX708) has PDAF autofocus.
-        # Continuous mode keeps the subject in focus during preview;
-        # the 3-second countdown gives plenty of time to lock focus
-        # before capture.  Cameras without AF (e.g. OV5647) will
-        # ignore these controls gracefully.
+        # Autofocus — IMX708 has PDAF; older sensors ignore these gracefully.
         if self.autofocus:
             try:
                 ctrl["AfMode"] = libcamera_controls.AfModeEnum.Continuous
@@ -301,6 +299,13 @@ class Camera:
             except AttributeError:
                 logger.debug("[Camera] Autofocus controls not available for this sensor")
 
+        return ctrl
+
+    def _apply_native_controls(self):
+        """Push ISP controls onto the running camera via set_controls()."""
+        if not self.picam2:
+            return
+        ctrl = self._isp_controls(self.preview_saturation)
         try:
             self.picam2.set_controls(ctrl)
             logger.info(f"[Camera] Native controls applied: {ctrl}")
@@ -355,7 +360,7 @@ class Camera:
                 img.save(output_path, quality=self.jpeg_quality)
             logger.info(f"[Camera] Still saved to {output_path} (quality={self.jpeg_quality})")
         finally:
-            # Restore the preview saturation.
+            # Restore the preview saturation
             self.picam2.set_controls({"Saturation": float(self.preview_saturation)})
             logger.debug(f"[Camera] Saturation restored to {self.preview_saturation} for preview")
             # set_controls() is asynchronous — the ISP needs a few frames to

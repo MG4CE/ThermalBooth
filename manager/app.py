@@ -56,6 +56,7 @@ CONFIG_SCHEMA = {
         "framerate": {"type": "int", "label": "Framerate", "min": 1, "max": 60},
         "color_preview": {"type": "bool", "label": "Color Preview"},
         "brightness": {"type": "float", "label": "Brightness", "min": -1.0, "max": 1.0, "step": 0.05},
+        "exposure_value": {"type": "float", "label": "Exposure Value (EV)", "min": -8.0, "max": 8.0, "step": 0.1},
         "contrast": {"type": "float", "label": "Contrast", "min": 0.0, "max": 5.0, "step": 0.05},
         "sharpness": {"type": "float", "label": "Sharpness", "min": 0.0, "max": 5.0, "step": 0.1},
         "autofocus": {"type": "bool", "label": "Autofocus"},
