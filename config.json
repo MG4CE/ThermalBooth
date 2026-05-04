@@ -5,6 +5,8 @@
     "af_range": "normal",
     "autofocus": true,
     "brightness": 0.0,
+    "ae_metering_mode": "spot",
+    "ae_exposure_mode": "normal",
     "exposure_value": 0.4,
     "capture_height": 2550,
     "capture_width": 3500,

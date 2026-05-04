@@ -56,6 +56,16 @@ CONFIG_SCHEMA = {
         "framerate": {"type": "int", "label": "Framerate", "min": 1, "max": 60},
         "color_preview": {"type": "bool", "label": "Color Preview"},
         "brightness": {"type": "float", "label": "Brightness", "min": -1.0, "max": 1.0, "step": 0.05},
+        "ae_metering_mode": {
+            "type": "enum",
+            "label": "AE Metering Mode",
+            "options": ["spot", "centreweighted", "matrix"],
+        },
+        "ae_exposure_mode": {
+            "type": "enum",
+            "label": "AE Exposure Mode",
+            "options": ["normal", "short", "long"],
+        },
         "exposure_value": {"type": "float", "label": "Exposure Value (EV)", "min": -8.0, "max": 8.0, "step": 0.1},
         "contrast": {"type": "float", "label": "Contrast", "min": 0.0, "max": 5.0, "step": 0.05},
         "sharpness": {"type": "float", "label": "Sharpness", "min": 0.0, "max": 5.0, "step": 0.1},

@@ -59,6 +59,8 @@ class Camera:
         self.brightness = self.cam_config.get('brightness', 0.0)
         self.contrast = self.cam_config.get('contrast', 1.0)
         self.exposure_value = self.cam_config.get('exposure_value', 0.0)
+        self.ae_metering_mode = self.cam_config.get('ae_metering_mode', 'spot')
+        self.ae_exposure_mode = self.cam_config.get('ae_exposure_mode', 'normal')
         self.denoise = self.cam_config.get('denoise', 'cdn_hq')
         self.sharpness = self.cam_config.get('sharpness', 1.5)
         self.autofocus = self.cam_config.get('autofocus', True)
@@ -142,7 +144,11 @@ class Camera:
             sensor={"output_size": sensor_size},
             controls={
                 "Saturation": 1.0,
-                "AeMeteringMode": libcamera_controls.AeMeteringModeEnum.Spot,
+                "AeMeteringMode": {
+                    "centreweighted": libcamera_controls.AeMeteringModeEnum.CentreWeighted,
+                    "spot":           libcamera_controls.AeMeteringModeEnum.Spot,
+                    "matrix":         libcamera_controls.AeMeteringModeEnum.Matrix,
+                }.get(self.ae_metering_mode, libcamera_controls.AeMeteringModeEnum.Spot),
                 "ExposureValue": float(self.exposure_value),
                 "Brightness": float(self.brightness),
                 "Contrast": float(self.contrast),
@@ -276,8 +282,16 @@ class Camera:
             # Auto-exposure
             "AeEnable": True,
             "ExposureValue": float(self.exposure_value),  # positive = brighter, negative = darker
-            "AeMeteringMode": libcamera_controls.AeMeteringModeEnum.Spot,
-            "AeExposureMode": libcamera_controls.AeExposureModeEnum.Normal,
+            "AeMeteringMode": {
+                "centreweighted": libcamera_controls.AeMeteringModeEnum.CentreWeighted,
+                "spot":           libcamera_controls.AeMeteringModeEnum.Spot,
+                "matrix":         libcamera_controls.AeMeteringModeEnum.Matrix,
+            }.get(self.ae_metering_mode, libcamera_controls.AeMeteringModeEnum.Spot),
+            "AeExposureMode": {
+                "normal": libcamera_controls.AeExposureModeEnum.Normal,
+                "short":  libcamera_controls.AeExposureModeEnum.Short,
+                "long":   libcamera_controls.AeExposureModeEnum.Long,
+            }.get(self.ae_exposure_mode, libcamera_controls.AeExposureModeEnum.Normal),
             # Auto white balance
             "AwbMode": 0,
             # Sharpening
