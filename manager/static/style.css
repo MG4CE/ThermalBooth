@@ -480,7 +480,7 @@ main {
 }
 
 .field-label {
-    font-size: 0.72rem;
+    font-size: 0.82rem;
     color: var(--text-dim);
     font-weight: 600;
     text-transform: uppercase;
