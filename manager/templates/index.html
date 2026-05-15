@@ -14,45 +14,21 @@
 <!-- Header -->
 <header>
     <div class="header-inner">
-        <h1>ThermalBooth Manager</h1>
-        <div class="status-area">
-            <span class="status-badge" id="status-badge">
-                <span class="status-dot"></span>
-                <span class="status-text">Checking...</span>
-            </span>
-        </div>
+        <h1>ThermalBooth</h1>
+        <span class="status-badge" id="status-badge">
+            <span class="status-dot"></span>
+            <span class="status-text">Checking...</span>
+        </span>
     </div>
 </header>
 
 <!-- Main content -->
 <main>
 
-    <!-- Controls -->
-    <section class="section-block" id="controls-card">
-        <div class="section-header">
-            <h2>Booth Controls</h2>
-            <span class="pid-info" id="pid-info"></span>
-        </div>
-        <div class="controls">
-            <button class="btn btn-start" id="btn-start" onclick="controlBooth('start')">
-                Start
-            </button>
-            <button class="btn btn-stop" id="btn-stop" onclick="controlBooth('stop')">
-                Stop
-            </button>
-            <button class="btn btn-restart" id="btn-restart" onclick="controlBooth('restart')">
-                Restart
-            </button>
-        </div>
-    </section>
-
     <!-- Config editor -->
     <section class="section-block" id="config-card">
         <div class="section-header">
             <h2>Configuration</h2>
-            <button class="btn btn-save" id="btn-save" onclick="saveConfig()">
-                Save Config
-            </button>
         </div>
         <div id="config-form">
             <div class="loading">Loading configuration...</div>
@@ -75,10 +51,27 @@
 
 </main>
 
-<footer>
-    <p>ThermalBooth Manager &mdash; Running on Raspberry Pi</p>
-</footer>
+<!-- Sticky bottom control bar -->
+<div id="sticky-bar">
+    <div id="sticky-inner">
+        <div id="sticky-left">
+            <span class="status-badge" id="sb-status-badge">
+                <span class="status-dot"></span>
+                <span class="status-text">…</span>
+            </span>
+            <span class="pid-info" id="pid-info"></span>
+        </div>
+        <div id="sticky-controls">
+            <button class="btn btn-start"   id="btn-start"   onclick="controlBooth('start')">Start</button>
+            <button class="btn btn-stop"    id="btn-stop"    onclick="controlBooth('stop')">Stop</button>
+            <button class="btn btn-restart" id="btn-restart" onclick="controlBooth('restart')">Restart</button>
+            <button class="btn btn-save"    id="btn-save"    onclick="saveConfig()">
+                Save<span class="dirty-dot" id="dirty-dot"></span>
+            </button>
+        </div>
+    </div>
+</div>
 
-<script src="/static/app.js?v=2"></script>
+<script src="/static/app.js?v=3"></script>
 </body>
 </html>
