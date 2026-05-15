@@ -39,7 +39,7 @@
     <section class="section-block" id="logs-card">
         <div class="section-header collapsible" onclick="toggleLogs()">
             <h2>
-                <span class="toggle-icon" id="logs-chevron">+</span>
+                <span class="toggle-icon" id="logs-chevron">&#9656;</span>
                 Service Logs
             </h2>
             <button class="btn btn-small" onclick="event.stopPropagation(); loadLogs()">Refresh</button>
@@ -62,9 +62,9 @@
             <span class="pid-info" id="pid-info"></span>
         </div>
         <div id="sticky-controls">
-            <button class="btn btn-start"   id="btn-start"   onclick="controlBooth('start')">Start</button>
-            <button class="btn btn-stop"    id="btn-stop"    onclick="controlBooth('stop')">Stop</button>
-            <button class="btn btn-restart" id="btn-restart" onclick="controlBooth('restart')">Restart</button>
+            <button class="btn btn-start"   id="btn-start"   onclick="controlBooth('start')">&#9654; Start</button>
+            <button class="btn btn-stop"    id="btn-stop"    onclick="controlBooth('stop')">&#9632; Stop</button>
+            <button class="btn btn-restart" id="btn-restart" onclick="controlBooth('restart')">&#8635; Restart</button>
             <button class="btn btn-save"    id="btn-save"    onclick="saveConfig()">
                 Save<span class="dirty-dot" id="dirty-dot"></span>
             </button>

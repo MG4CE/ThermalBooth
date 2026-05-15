@@ -174,7 +174,7 @@ function renderConfigForm(config, schema, container) {
 
             const toggleBtn    = document.createElement("button");
             toggleBtn.className = "section-toggle";
-            toggleBtn.innerHTML = `<span class="toggle-icon">−</span>${sectionLabel}`;
+            toggleBtn.innerHTML = `<span class="toggle-icon">▾</span>${sectionLabel}`;
 
             const fieldsWrap    = document.createElement("div");
             fieldsWrap.className = "section-fields";
@@ -182,7 +182,7 @@ function renderConfigForm(config, schema, container) {
 
             toggleBtn.addEventListener("click", () => {
                 const hidden = fieldsWrap.classList.toggle("hidden");
-                toggleBtn.querySelector(".toggle-icon").textContent = hidden ? "+" : "−";
+                toggleBtn.querySelector(".toggle-icon").textContent = hidden ? "▸" : "▾";
             });
 
             sectionEl.appendChild(toggleBtn);
@@ -207,14 +207,14 @@ function renderConfigForm(config, schema, container) {
 
         const advBtn       = document.createElement("button");
         advBtn.className   = "advanced-toggle";
-        advBtn.innerHTML   = `<span class="toggle-icon">+</span>Advanced Settings`;
+        advBtn.innerHTML   = `<span class="toggle-icon">▸</span>Advanced Settings`;
 
         const advBody      = document.createElement("div");
         advBody.className  = "advanced-body";
 
         advBtn.addEventListener("click", () => {
             const open = advBody.classList.toggle("open");
-            advBtn.querySelector(".toggle-icon").textContent = open ? "−" : "+";
+            advBtn.querySelector(".toggle-icon").textContent = open ? "▾" : "▸";
         });
 
         for (const group of advancedGroups) {
@@ -225,7 +225,7 @@ function renderConfigForm(config, schema, container) {
 
             const subToggle    = document.createElement("button");
             subToggle.className = "section-toggle";
-            subToggle.innerHTML = `<span class="toggle-icon">−</span>${group.label}`;
+            subToggle.innerHTML = `<span class="toggle-icon">▾</span>${group.label}`;
 
             const subFields    = document.createElement("div");
             subFields.className = "section-fields";
@@ -233,7 +233,7 @@ function renderConfigForm(config, schema, container) {
 
             subToggle.addEventListener("click", () => {
                 const hidden = subFields.classList.toggle("hidden");
-                subToggle.querySelector(".toggle-icon").textContent = hidden ? "+" : "−";
+                subToggle.querySelector(".toggle-icon").textContent = hidden ? "▸" : "▾";
             });
 
             subSection.appendChild(subToggle);
@@ -672,7 +672,7 @@ function toggleLogs() {
     const chevron = document.getElementById("logs-chevron");
     logsOpen = !logsOpen;
     body.classList.toggle("open", logsOpen);
-    chevron.textContent = logsOpen ? "−" : "+";
+    chevron.textContent = logsOpen ? "▾" : "▸";
     if (logsOpen) loadLogs();
 }
 
