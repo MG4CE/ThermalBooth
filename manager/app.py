@@ -36,7 +36,7 @@ CONFIG_SCHEMA = {
         "retry_attempts": {"type": "int", "label": "Retry Attempts", "min": 1, "max": 10},
         "line_spacing": {"type": "int", "label": "Line Spacing", "min": 0, "max": 100},
         "print_width": {"type": "int", "label": "Print Width (px)", "min": 100, "max": 1000},
-        "heat_time": {"type": "int", "label": "Heat Time (×10µs)", "min": 5, "max": 50},
+        "heat_time": {"type": "int", "label": "Heat Time (×10µs)", "min": 5, "max": 40},
         "max_dots": {"type": "int", "label": "Max Heating Dots", "min": 0, "max": 30},
     },
     "gpio": {
